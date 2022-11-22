@@ -12,4 +12,4 @@ app.use(apiRouter);
 
 app.listen(port,()=>{
     console.log(`Server ready port ${port}`);
-})
+}) 
