@@ -1,10 +1,13 @@
 import registerUsers from "../db/users.db.js";
 import jwt from 'jsonwebtoken';
+import sha256 from 'crypto-js/sha256.js';
 import * as dotenv from 'dotenv';
+
 
 function getToken(user){
     const payload = {
-        user: user.name
+        id: user.id,
+        user: user.user
     };
     const token = jwt.sign(payload, process.env.AUTH_SECRET_KEY,{
         expiresIn: process.env.AUTH_EXPIRES_IN
@@ -30,7 +33,6 @@ function createUser(req, res){
         console.log('Este usuario ya existe');
         res.json(registerUsers);
     }
-    
 }
 function loginUser (req, res){
     const userExist = registerUsers.find(item => item.user === req.body.user && item.pass === sha256(req.body.pass).toString());
@@ -38,11 +40,15 @@ function loginUser (req, res){
         res.send('USUARIO O CONTRASEÑA ERRONEOS').end();
         return
     }else{
-        res.json({token});
+    const token = getToken(userExist);
+
+    res.set('Authorization', token);
+    res.json({ token });
+
+    
     }
+
 }
-
-
 function deleteUserById(req, res){
     const id = Number(req.params.id);
     const xxx = registerUsers.filter(item => item.id !== id)
@@ -53,5 +59,4 @@ function deleteUserById(req, res){
     res.status(204).send(test);
 }
 
-
-export {createUser, deleteUserById, loginUser}
+export { createUser, deleteUserById, loginUser } ;

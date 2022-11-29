@@ -12,5 +12,7 @@
                 pass: pass.value
             })
         });
+        localStorage.setItem('test', 1);
         return await response.json();
     }
+   
