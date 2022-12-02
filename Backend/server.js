@@ -1,4 +1,5 @@
 import express from 'express';
+import './api/db/database.js'
 import apiRouter from './api/routers.js';
 import cors from 'cors';
 

@@ -1,6 +1,6 @@
 import registerUsers from "../db/users.db.js";
 import jwt from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
+
 
 function getToken(user){
     const payload = {
